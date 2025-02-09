@@ -2,6 +2,7 @@ import type { WindowCreateConfig } from './manager'
 import { join } from 'node:path'
 import process from 'node:process'
 import { ipcMain, shell } from 'electron'
+import { store } from '~main/store'
 import { isDev, preloadPath } from '../constants'
 
 export const mainWinConfig: WindowCreateConfig = {
@@ -40,6 +41,10 @@ export const mainWinConfig: WindowCreateConfig = {
 
     // Prevent main window from closing and hide it instead.
     window.on('close', (event) => {
+      const isMinimizeToTray = store.get('minimizeToTray')
+      if (!isMinimizeToTray)
+        return
+
       event.preventDefault()
       window.hide()
     })
