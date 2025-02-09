@@ -2,7 +2,7 @@ import type { WindowCreateConfig } from './manager'
 import { join } from 'node:path'
 import process from 'node:process'
 import { shell } from 'electron'
-import { isDev } from '../constants'
+import { isDev, preloadPath } from '../constants'
 
 export const mainWinConfig: WindowCreateConfig = {
   options: {
@@ -11,7 +11,7 @@ export const mainWinConfig: WindowCreateConfig = {
     autoHideMenuBar: true,
     webPreferences: {
       devTools: isDev,
-      // preload: join(__dirname, '../preload/index.js'),
+      preload: preloadPath,
       sandbox: false,
     },
   },

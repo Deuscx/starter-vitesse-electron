@@ -30,7 +30,7 @@ class WindowManager {
 
     windowConfig.callback(win, this)
 
-    return window
+    return win
   }
 
   get(name: WindowType) {
