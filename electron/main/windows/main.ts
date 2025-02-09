@@ -1,7 +1,7 @@
 import type { WindowCreateConfig } from './manager'
 import { join } from 'node:path'
 import process from 'node:process'
-import { shell } from 'electron'
+import { ipcMain, shell } from 'electron'
 import { isDev, preloadPath } from '../constants'
 
 export const mainWinConfig: WindowCreateConfig = {
@@ -15,7 +15,7 @@ export const mainWinConfig: WindowCreateConfig = {
       sandbox: false,
     },
   },
-  callback(window, _windowManager) {
+  callback(window, windowManager) {
     window.on('ready-to-show', () => {
       window.show()
     })
@@ -33,5 +33,9 @@ export const mainWinConfig: WindowCreateConfig = {
     else {
       window.loadFile(join(__dirname, '../renderer/index.html'))
     }
+
+    ipcMain.handle('new-window', () => {
+      windowManager.get('second').show()
+    })
   },
 }

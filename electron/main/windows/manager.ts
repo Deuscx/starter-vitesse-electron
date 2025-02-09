@@ -2,8 +2,9 @@ import type { BrowserWindowConstructorOptions } from 'electron'
 import { BrowserWindow } from 'electron'
 import { isDev } from '~main/constants'
 import { mainWinConfig } from './main'
+import { secondWindowConfig } from './second'
 
-export type WindowType = 'main'
+export type WindowType = 'main' | 'second'
 
 export interface WindowCreateConfig {
   options: Partial<BrowserWindowConstructorOptions>
@@ -12,6 +13,7 @@ export interface WindowCreateConfig {
 
 const windowConfigs: Record<string, WindowCreateConfig> = {
   main: mainWinConfig,
+  second: secondWindowConfig,
 }
 
 class WindowManager {

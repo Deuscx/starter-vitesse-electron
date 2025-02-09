@@ -10,6 +10,10 @@ function go() {
   if (name.value)
     router.push(`/hi/${encodeURIComponent(name.value)}`)
 }
+
+function createWindow() {
+  window.electron.ipcRenderer.invoke('new-window')
+}
 </script>
 
 <template>
@@ -40,6 +44,12 @@ function go() {
         @click="go"
       >
         Go
+      </button>
+      <button
+        class="m-3 text-sm btn"
+        @click="createWindow"
+      >
+        Create New  Window
       </button>
     </div>
     <Versions />
