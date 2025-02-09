@@ -22,7 +22,7 @@ export default defineConfig({
     },
     resolve: {
       alias: {
-        '~': resolve('./electron/main/src'),
+        '~main/': `${resolve('./electron/main')}/`,
       },
     },
   },
@@ -41,7 +41,7 @@ export default defineConfig({
     root: path.resolve(__dirname, 'src'),
     resolve: {
       alias: {
-        '~': resolve('src'),
+        '~/': `${resolve('src')}/`,
       },
     },
     build: {
