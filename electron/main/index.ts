@@ -1,5 +1,6 @@
 import process from 'node:process'
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow } from 'electron'
+import { setUpTray } from './tray'
 import { windowManager } from './windows/manager'
 // import icon from '../../resources/icon.png?asset'
 
@@ -15,9 +16,9 @@ function run() {
   app.whenReady().then(() => {
   // Set app user model id for windows
   // electronApp.setAppUserModelId('com.electron')
-    // IPC test
-    ipcMain.on('ping', () => console.log('pong'))
+
     windowManager.create('main')
+    setUpTray()
 
     app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the
@@ -34,6 +35,11 @@ function run() {
     if (process.platform !== 'darwin') {
       app.quit()
     }
+  })
+
+  app.on('before-quit', () => {
+    const windows = BrowserWindow.getAllWindows()
+    windows.forEach(window => window.destroy())
   })
 }
 

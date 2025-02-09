@@ -37,5 +37,11 @@ export const mainWinConfig: WindowCreateConfig = {
     ipcMain.handle('new-window', () => {
       windowManager.get('second').show()
     })
+
+    // Prevent main window from closing and hide it instead.
+    window.on('close', (event) => {
+      event.preventDefault()
+      window.hide()
+    })
   },
 }
