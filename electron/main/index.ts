@@ -1,8 +1,10 @@
 import process from 'node:process'
+import { registerIpcMain } from '@egoist/tipc/main'
 import { app, BrowserWindow } from 'electron'
+// import icon from '../../resources/icon.png?asset'
+import { router } from './tipc'
 import { setUpTray } from './tray'
 import { windowManager } from './windows/manager'
-// import icon from '../../resources/icon.png?asset'
 
 function run() {
   // https://www.electronjs.org/docs/api/app#apprequestsingleinstancelock
@@ -19,6 +21,7 @@ function run() {
 
     windowManager.create('main')
     setUpTray()
+    registerIpcMain(router)
 
     app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the

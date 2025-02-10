@@ -8,8 +8,6 @@ export const secondWindowConfig: WindowCreateConfig = {
     show: false,
   },
   callback(window) {
-    window.loadURL('https://bing.com')
-
     window.on('ready-to-show', () => {
       window.show()
     })

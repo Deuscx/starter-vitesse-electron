@@ -1,4 +1,6 @@
 <script setup lang="ts" generic="T extends any, O extends any">
+import { client } from '~/client'
+
 defineOptions({
   name: 'IndexPage',
 })
@@ -12,7 +14,7 @@ function go() {
 }
 
 function createWindow() {
-  window.electron.ipcRenderer.invoke('new-window')
+  client.newWindow('https://bing.com')
 }
 </script>
 

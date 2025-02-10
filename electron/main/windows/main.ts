@@ -1,7 +1,7 @@
 import type { WindowCreateConfig } from './manager'
 import { join } from 'node:path'
 import process from 'node:process'
-import { ipcMain, shell } from 'electron'
+import { shell } from 'electron'
 import { store } from '~main/store'
 import { isDev, preloadPath } from '../constants'
 
@@ -16,7 +16,7 @@ export const mainWinConfig: WindowCreateConfig = {
       sandbox: false,
     },
   },
-  callback(window, windowManager) {
+  callback(window, _windowManager) {
     window.on('ready-to-show', () => {
       window.show()
     })
@@ -34,10 +34,6 @@ export const mainWinConfig: WindowCreateConfig = {
     else {
       window.loadFile(join(__dirname, '../renderer/index.html'))
     }
-
-    ipcMain.handle('new-window', () => {
-      windowManager.get('second').show()
-    })
 
     // Prevent main window from closing and hide it instead.
     window.on('close', (event) => {
