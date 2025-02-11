@@ -1,4 +1,4 @@
-import path, { resolve } from 'node:path'
+import { resolve } from 'node:path'
 import Vue from '@vitejs/plugin-vue'
 import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
 import UnoCSS from 'unocss/vite'
@@ -12,43 +12,19 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 export default defineConfig({
   main: {
     plugins: [externalizeDepsPlugin()],
-    build: {
-      rollupOptions: {
-        // external: EXTERNAL_PACKAGES,
-        input: {
-          index: path.resolve(__dirname, 'electron/main/index.ts'),
-        },
-      },
-    },
     resolve: {
       alias: {
-        '~main/': `${resolve('./electron/main')}/`,
+        '~main/': `${resolve('./src/main')}/`,
       },
     },
   },
   preload: {
-    build: {
-      rollupOptions: {
-        // external: EXTERNAL_PACKAGES,
-        input: {
-          index: path.resolve(__dirname, 'electron/preload/index.ts'),
-        },
-      },
-    },
     plugins: [externalizeDepsPlugin()],
   },
   renderer: {
-    root: path.resolve(__dirname, 'src'),
     resolve: {
       alias: {
-        '~/': `${resolve('src')}/`,
-      },
-    },
-    build: {
-      rollupOptions: {
-        input: {
-          index: resolve(__dirname, 'src/index.html'),
-        },
+        '~/': `${resolve('src/renderer')}/`,
       },
     },
     plugins: [
@@ -66,7 +42,13 @@ export default defineConfig({
       }),
 
       // https://github.com/posva/unplugin-vue-router
-      VueRouter(),
+      VueRouter({
+        routesFolder: [
+          {
+            src: 'src/renderer/pages',
+          },
+        ],
+      }),
 
       // https://github.com/antfu/unplugin-auto-import
       AutoImport({
