@@ -1,14 +1,33 @@
 {
-  "extends": "@electron-toolkit/tsconfig/tsconfig.node.json",
   "compilerOptions": {
-    "target": "ES2022",
+    "target": "es2020",
+    "jsx": "preserve",
+    "lib": ["DOM", "ESNext"],
+    "baseUrl": ".",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "paths": {
+      "~/*": ["src/renderer/*"],
+      "~main/*": ["src/main/*"]
+    },
+    "resolveJsonModule": true,
     "types": [
       "vite/client",
       "unplugin-vue-macros/macros-global",
       "unplugin-vue-router/client"
     ],
-    "noImplicitOverride": true,
-    "noUncheckedIndexedAccess": true
+    "allowJs": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
   },
-  "exclude": ["apps", "packages"]
+  "exclude": [
+    "dist",
+    "node_modules",
+    "eslint.config.js"
+  ]
 }
