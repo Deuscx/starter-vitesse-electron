@@ -1,5 +1,7 @@
 import { tipc } from '@egoist/tipc/main'
+import { shell } from 'electron'
 import { windowManager } from '~main/windows/manager'
+import { storePath } from './store'
 
 const t = tipc.create()
 
@@ -8,6 +10,11 @@ export const router = {
     .input<string>()
     .action(async ({ input }) => {
       windowManager.get('second').loadURL(input)
+    }),
+
+  openStoreFile: t.procedure
+    .action(async () => {
+      shell.openPath(storePath)
     }),
 }
 

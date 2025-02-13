@@ -53,6 +53,12 @@ function createWindow() {
       >
         Create New  Window
       </button>
+      <button
+        class="m-3 text-sm btn"
+        @click="() => client.openStoreFile()"
+      >
+        Open Store Path
+      </button>
     </div>
     <Versions />
   </div>

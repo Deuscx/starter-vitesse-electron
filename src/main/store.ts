@@ -1,7 +1,7 @@
+import type { LowSync } from 'lowdb'
 import path from 'node:path'
 import { app } from 'electron'
-import { LowSync } from 'lowdb'
-import { JSONFileSync } from 'lowdb/node'
+import { JSONFileSyncPreset } from 'lowdb/node'
 import { isMacOS } from './constants'
 
 const STORE_PATH = app.getPath('userData')
@@ -15,11 +15,13 @@ interface AppConfig {
 
 type ConfigKey = keyof AppConfig
 
-const storePath = path.join(STORE_PATH, './vue-electron-starter-conf.json')
+export const storePath = path.join(STORE_PATH, './vue-electron-starter-conf.json')
+
 class Store {
   db: LowSync<AppConfig>
   constructor() {
-    this.db = new LowSync(new JSONFileSync(storePath), defaultData)
+    this.db = JSONFileSyncPreset<AppConfig>(storePath, defaultData)
+    this.db.write()
   }
 
   get(name: ConfigKey) {
