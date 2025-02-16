@@ -43,7 +43,7 @@ jobs:
         run: pnpm run build:win
 
       - name: build linux
-        if: matrix.os == 'windows-latest'
+        if: matrix.os == 'ubuntu-latest'
         run: pnpm run build:linux
 
       # cleanup artifacts in release
@@ -64,9 +64,7 @@ jobs:
           name: ${{ matrix.os }}
           path: |
             dist/*.exe
-            dist/*.deb
-            dist/*.rpm
-            dist/manifest.yml
+            dist/latest.yml
             dist/*.tar.gz
           retention-days: 90
           if-no-files-found: ignore
@@ -78,8 +76,6 @@ jobs:
         with:
           files: |
             dist/*.exe
-            dist/*.deb
-            dist/*.rpm
             dist/manifest.yml
             dist/*.tar.gz
         env:
