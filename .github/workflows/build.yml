@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
+        os: [windows-latest, ubuntu-latest]
 
     # job's name
     name: build and release electron app
@@ -34,13 +34,19 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-      - name: build
-        run: pnpm run build:all
+
+      - name: build windows
+        if: matrix.os == 'windows-latest'
+        run: pnpm run build:win
+
+      - name: build linux
+        if: matrix.os == 'ubuntu-latest'
+        run: pnpm run build:linux
 
       # cleanup artifacts in release
-      - name: cleanup artifacts
-        run: |
-          rm -rf "release/!(*.exe|*.dmg)"
+      # - name: cleanup artifacts
+      #   run: |
+      #     rm -rf "release/!(*.exe|*.dmg)"
 
       - run: npx changelogithub
         if: github.ref_type == 'tag' || github.event.inputs.tag_version == 'true'
@@ -55,8 +61,6 @@ jobs:
           name: ${{ matrix.os }}
           path: |
             dist/*-win-*.exe
-            dist/*-mac-*.dmg
-            dist/*.AppImage
             dist/*.deb
             dist/*.rpm
             dist/manifest.yml
@@ -71,8 +75,6 @@ jobs:
         with:
           files: |
             dist/*-win-*.exe
-            dist/*-mac-*.dmg
-            dist/*.AppImage
             dist/*.deb
             dist/*.rpm
             dist/manifest.yml
