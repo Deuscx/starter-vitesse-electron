@@ -1,7 +1,7 @@
 {
   "name": "vitesse-electron",
   "type": "module",
-  "version": "0.0.2-beta.1",
+  "version": "0.0.2-beta.2",
   "private": true,
   "packageManager": "pnpm@9.15.3",
   "main": "./out/main/index.js",
