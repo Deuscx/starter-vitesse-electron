@@ -46,11 +46,6 @@ function init() {
   logger.transports.file.level = 'info'
   autoUpdater.logger = logger
 
-  // 禁用自动下载
-  autoUpdater.autoDownload = false
-  // 启用退出app时自动安装更新
-  autoUpdater.autoInstallOnAppQuit = true
-
   // 监听事件并发送到渲染进程
   const events = [
     'error',
