@@ -1,7 +1,7 @@
 {
   "name": "vitesse-electron",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "packageManager": "pnpm@9.15.3",
   "main": "./out/main/index.js",
@@ -18,7 +18,8 @@
     "preview": "vite preview",
     "test": "vitest",
     "up": "taze major -I",
-    "postinstall": "npx simple-git-hooks"
+    "postinstall": "npx simple-git-hooks",
+    "release": "bumpp"
   },
   "dependencies": {
     "@egoist/tipc": "^0.3.2",
@@ -42,6 +43,7 @@
     "@vitejs/plugin-vue": "^5.2.1",
     "@vue-macros/volar": "^0.30.10",
     "@vue/test-utils": "^2.4.6",
+    "bumpp": "^10.0.3",
     "electron": "^31.0.2",
     "electron-builder": "^24.13.3",
     "electron-vite": "^2.3.0",
