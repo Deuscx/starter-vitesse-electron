@@ -16,7 +16,8 @@ jobs:
       fail-fast: false
       matrix:
         os: [windows-latest]
-
+    permissions:
+      contents: write
     # job's name
     name: build and release electron app
     steps:
@@ -69,14 +70,13 @@ jobs:
           retention-days: 90
           if-no-files-found: ignore
 
-      # create release
-      - name: release
+      - name: Create Release Draft
         uses: softprops/action-gh-release@v2
         if: github.ref_type == 'tag' || github.event.inputs.tag_version == 'true'
         with:
+          draft: false
+          prerelease: true
           files: |
             dist/*.exe
             dist/manifest.yml
             dist/*.tar.gz
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
