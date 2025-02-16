@@ -2,6 +2,7 @@ import { tipc } from '@egoist/tipc/main'
 import { shell } from 'electron'
 import { windowManager } from '~main/windows/manager'
 import { storePath } from './store'
+import { applyUpdate, checkUpdate, downloadUpdate } from './update'
 
 const t = tipc.create()
 
@@ -15,6 +16,21 @@ export const router = {
   openStoreFile: t.procedure
     .action(async () => {
       shell.openPath(storePath)
+    }),
+
+  checkUpdate: t.procedure
+    .action(async () => {
+      await checkUpdate()
+    }),
+
+  downloadUpdate: t.procedure
+    .action(async () => {
+      downloadUpdate()
+    }),
+
+  applyUpdate: t.procedure
+    .action(async () => {
+      applyUpdate()
     }),
 }
 

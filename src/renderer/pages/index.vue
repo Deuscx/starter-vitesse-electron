@@ -59,6 +59,7 @@ function createWindow() {
       >
         Open Store Path
       </button>
+      <AppUpdate />
     </div>
     <Versions />
   </div>
