@@ -1,0 +1,78 @@
+name: publish release
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - 'v*.*.*'
+
+# Workflow's jobs
+jobs:
+  # job's id
+  release:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+
+    # job's name
+    name: build and release electron app
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: build
+        run: pnpm run build:all
+
+      # cleanup artifacts in release
+      - name: cleanup artifacts
+        run: |
+          rm -rf "release/!(*.exe|*.dmg)"
+
+      - run: npx changelogithub
+        if: github.ref_type == 'tag' || github.event.inputs.tag_version == 'true'
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # upload artifacts
+      - name: upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.os }}
+          path: |
+            dist/*-win-*.exe
+            dist/*-mac-*.dmg
+            dist/*.AppImage
+            dist/*.deb
+            dist/*.rpm
+            dist/manifest.yml
+            dist/*.tar.gz
+          retention-days: 90
+          if-no-files-found: ignore
+
+      # create release
+      - name: release
+        uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag' || github.event.inputs.tag_version == 'true'
+        with:
+          files: |
+            dist/*-win-*.exe
+            dist/*-mac-*.dmg
+            dist/*.AppImage
+            dist/*.deb
+            dist/*.rpm
+            dist/manifest.yml
+            dist/*.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
